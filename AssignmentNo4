@@ -1,0 +1,67 @@
+#include <iostream> 
+using namespace std; 
+ class Node { public: 
+    string task_name;    
+     int priority;     
+     int exe_time; 
+    Node* next; 
+ 
+    Node(string tn, int p, int e) {      
+		   task_name = tn;         
+		   priority = p;         
+		   exe_time = e;        
+		    next = NULL; 
+    }  
+    void display() { 
+        cout << "Task name: " << task_name << endl;         
+        cout << "Priority: " << priority << endl; 
+        cout << "Execution time: " << exe_time << "s" << endl; 
+    } 
+};  
+int main() { 
+    Node* head = NULL; 
+     int n;    
+      string tn;     
+      int p, e; 
+ 
+    cout << "How many tasks do you want to add? " << endl;     
+    cin >> n; 
+ 
+    for (int i = 0; i < n; i++) { 
+        cout << "\nEnter task name: ";        
+         cin >> tn; 
+        cout << "Enter task priority (higher number means higher priority): ";        
+         cin >> p; 
+        cout << "Enter execution time (in seconds): ";        
+         cin >> e; 
+ 
+        // Create a new task node 
+        Node* temp = new Node(tn, p, e); 
+ 
+        // Insert into the priority list 
+        if (head == NULL || head->priority < temp->priority) {            
+			 temp->next = head;            
+			  head = temp; 
+        }          else { 
+            Node* prev = head; 
+            Node* current = head->next; 
+             while (current != NULL && current->priority >= temp->priority) { 
+                prev = current;                 current = current->next; 
+            } 
+ 
+            prev->next = temp;             temp->next = current; 
+        } 
+    } 
+ 
+    // Display the priority list 
+    cout << "\n-------------------------------------------\n"; 
+    cout << "The Priority List is as follows:\n\n";     Node* t = head;     while (t != NULL) {         t->display(); 
+        cout << "---------------------\n";         t = t->next; 
+    }  
+    return 0; 
+} 
+ 
+ 
+ 
+ 
+ 
