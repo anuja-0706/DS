@@ -1,0 +1,103 @@
+#include <iostream>
+using namespace std;
+
+struct Node {
+    string name;
+    Node* next;
+};
+
+class Queue {
+    Node* front;
+    Node* rear;
+
+public:
+    Queue() {
+        front = rear = NULL;
+    }
+
+    // Add customer
+    void enqueue(string name) {
+        Node* newNode = new Node;
+        newNode->name = name;
+        newNode->next = NULL;
+
+        if (rear == NULL) {
+            front = rear = newNode;
+        } else {
+            rear->next = newNode;
+            rear = newNode;
+        }
+        cout << name << " has entered the line.\n";
+    }
+
+    // Serve customer
+    void dequeue() {
+        if (front == NULL) {
+            cout << "Queue is empty! No customers to serve.\n";
+            return;
+        }
+
+        Node* temp = front;
+        cout << front->name << " got their coffee and left.\n";
+        front = front->next;
+
+        if (front == NULL) {
+            rear = NULL;
+        }
+        delete temp;
+    }
+
+    // Display queue
+    void display() {
+        if (front == NULL) {
+            cout << "Queue is empty!\n";
+            return;
+        }
+
+        cout << "Current line: ";
+        Node* temp = front;
+        while (temp != NULL) {
+            cout << temp->name << " ";
+            temp = temp->next;
+        }
+        cout << endl;
+    }
+};
+
+int main() {
+    Queue q;
+    int choice;
+    string name;
+
+    do {
+        cout << "\n--- Coffee Shop Menu ---\n";
+        cout << "1. New Customer Arrives\n";
+        cout << "2. Serve Customer\n";
+        cout << "3. Show Line\n";
+        cout << "4. Exit\n";
+        cout << "Enter choice: ";
+        cin >> choice;
+
+        switch (choice) {
+            case 1:
+                cout << "Enter customer name: ";
+                cin >> name;
+                q.enqueue(name);
+                break;
+            case 2:
+                q.dequeue();
+                break;
+            case 3:
+                q.display();
+                break;
+            case 4:
+                cout << "Exiting...\n";
+                break;
+            default:
+                cout << "Invalid choice!\n";
+        }
+    } while (choice != 4);
+
+    return 0;
+}
+
